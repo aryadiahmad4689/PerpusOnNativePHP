@@ -7,6 +7,8 @@ if( !isset($_SESSION["login"]) ) {
 }
 require '../../function/PengembalianController.php';
 $peminjaman = query("SELECT * FROM peminjaman");
+$denda = query("SELECT batas_waktu, denda from pengaturan_denda")[0];
+
 
 
 if( isset($_POST["tambah"]) ) {
@@ -33,11 +35,21 @@ require_once '../template/header.php'
 
 
 <form action="" method="post" >
+
+
+
+<div class="form-row">
+  <div class="form-group col-md-6">
+    <label for="judu_buku">Tanggal Pengembalian</label>
+    <input type="date" class="form-control tglPengembalian" id="judul_buku" name="tanggal" >
+  </div>
+  </div>
+  
 <div class="form-row">
   <div class="form-group col-md-6">
     <label for="nama_anggota">Kode Peminjaman</label>
     <select id="inputState" name="kode" class="form-control kdPeminjaman" required>
-    <option>Choose...</option>
+    <!-- <option>Choose...</option> -->
     <?php
         foreach ($peminjaman as $b) : ?>
         <option value="<?= $b['kode_peminjaman']?>" data-id="<?= $b['tanggal_peminjaman'];?>"><?= $b['kode_peminjaman']?></option>
@@ -46,17 +58,12 @@ require_once '../template/header.php'
    </div>
   </div>
 
-  <div class="form-row">
-  <div class="form-group col-md-6">
-    <label for="judu_buku">Tanggal Pengembalian</label>
-    <input type="date" class="form-control tglPengembalian" id="judul_buku" name="tanggal" >
-  </div>
-  </div>
+  
 
   <div class="form-row">
   <div class="form-group col-md-6">
     <label for="penulis">Denda</label>
-    <input type="text" class="form-control" id="penulis" name="denda" placeholder="Masukkan Jumlah Denda">
+    <input type="text" class="form-control" readonly id="jumlahDenda" name="denda" placeholder="Masukkan Jumlah Denda">
   </div>
   </div>
  
@@ -68,27 +75,28 @@ require_once '../template/header.php'
 </div>
 
 <script>
-const tanggalPeminjaman = new Date(document.querySelector('.kdPeminjaman').value);
-const tanggalPengembalian = new Date(document.querySelector('.tglPengembalian').value);
-document.querySelector('.kdPeminjaman').addEventListener('click', function(){
-  let tanggalPeminjaman =$(this).find(':selected').data('id');
-  console.log(tanggalPeminjaman);
+// var d1 = document.querySelector('.kdPeminjaman').value;
+// var d2 = document.querySelector('.tglPengembalian').value;
+document.querySelector('.kdPeminjaman').addEventListener('change', function(){
+  let d1 =new Date($(this).find(':selected').data('id'));
+ 
+  let d2 = new Date(document.querySelector('.tglPengembalian').value);
+ 
+
+  // console.log(tanggalPengembalian.value);
+ let selisih  =Math.round((d2-d1)/86400000);
+
+ if (selisih > <?= $denda['batas_waktu']?>){
+    document.querySelector('#jumlahDenda').value = <?= $denda['denda']?>
+ }else{
+  document.querySelector('#jumlahDenda').value = 0;
+   
+ }
+
+
 })
 
-document.querySelector('.tglPengembalian').addEventListener('change', function(){
-  let tanggalPengembalian = document.querySelector('.tglPengembalian');
-
-  console.log(tanggalPengembalian.value);
-})
-
-
-    var timeDiff=0
-     if (tanggalPengembalian ) {
-            timeDiff = (tanggalPeminjaman - tanggalPengembalian) / 1000;
-        }
-        console.log(Math.floor(timeDiff/(86400)))
-//  $('#selisih').val(Math.floor(timeDiff/(86400))+' Hari')  
-
+ 
 </script>
 
 <?php

@@ -50,14 +50,16 @@ $baseURL = 'http://localhost.test/FinalRekayasaWeb/public';
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
           <a class="dropdown-item" href="<?= $baseURL; ?>/laporandaftarbuku">Laporan Daftar Buku</a>
-          <a class="dropdown-item" href="#">Laporan Denda</a>
+          <a class="dropdown-item" href="<?=$baseURL?>/laporandenda/index.php">Laporan Denda</a>
       </li>
 
       <li class="nav-item dropdown active">
         <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Menu Akun
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="#">User</a>
+          <a class="dropdown-item" href="<?= $baseURL;?>/user/index.php">User</a>
+          <a class="dropdown-item" href="<?= $baseURL;?>/Auth/logout.php">Keluar</a>
+
       </li>
       
     </ul>
