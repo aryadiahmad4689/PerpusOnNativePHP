@@ -49,7 +49,7 @@ $baseURL = 'http://localhost.test/FinalRekayasaWeb/public';
         <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Menu Laporan
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="<?= $baseURL; ?>/laporandaftarbuku">Laporan Daftar Buku</a>
+          <a class="dropdown-item" href="<?=$baseURL; ?>/laporandaftarbuku">Laporan Daftar Buku</a>
           <a class="dropdown-item" href="<?=$baseURL?>/laporandenda/index.php">Laporan Denda</a>
       </li>
 
